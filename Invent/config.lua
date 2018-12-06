@@ -7,9 +7,9 @@ application =
 {
 	content =
 	{
-		width = 320,
-		height = 480, 
-		scale = "letterbox",
+		width = 768,
+		height = 1024, 
+		scale = "roomStretch",
 		fps = 60,
 		
 		--[[

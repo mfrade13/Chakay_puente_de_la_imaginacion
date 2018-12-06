@@ -39,9 +39,8 @@ function createDatabase( )
 	 db:execute(query2)
 	 db:execute(query3)
 	 db:execute(query4)
+ 	 db:execute(query5)
 	 --inserciones de datos
-
-
 
 
 	 db:close()
@@ -49,8 +48,8 @@ end
 
 	createDatabase()
 
-function guardarResultados( params )
-	db:sqlite3.open()
+function guardarResultados(params)
+	db = sqlite3.open(path)
 	local sql = "insert into " .. progreso .. " "
 	if params then
 		sql = sql .. "("
@@ -64,7 +63,7 @@ function guardarResultados( params )
 		if params.level ~= nil then
 			sql = sql .. " Level"
 		end
-		if i ~= length do 
+		if i ~= length then
 			sql = sql .. ", "
 		end
 	end
@@ -81,7 +80,7 @@ function guardarResultados( params )
 		if params.level ~= nil then
 			sql = sql .. "" .. params.level
 		end
-		if i ~= length do 
+		if i ~= length then
 			sql = sql .. ", "
 		end
 	end
@@ -96,49 +95,67 @@ end
 
 function obtenerUsuario(  )
 	local listausuario ={}
-	db:sqlite3.open()
+	db = sqlite3.open(path)
 	local k = 1
 	local sql = "SELECT * from "..usuario ";"
 	for x in db:nrows(sql) do
-		listausuario[k]={"ID" =x.ID_Usuario , "userName" ="".. x.User_Name, "correo" = x.Correo}
-		k+1
+		listausuario[k]= {ID = x.ID_Usuario , userName = x.User_Name , correo = x.Correo}
+		k = k+1
 	end
+
+	db:close()
 	return listausuario
 end
 
-function agregarUsuario( ID, User, Correo)
-	db:sqlite3.open()
+function obtenerUsuario( username  )
+	local listausuario ={}
+	db = sqlite3.open(path)
+	local k = 1
+	local sql = "SELECT * from "..usuario "where User_Name = ".. username .. ";"
+	for x in db:nrows(sql) do
+		listausuario[k]= {ID = x.ID_Usuario , userName = x.User_Name , correo = x.Correo}
+		k = k+1
+	end
+
+	db:close()
+	return listausuario
+end
+
+
+function agregarUsuario( User, Correo)
+	db = sqlite3.open(path)
 	local sql = "insert into ".. usuario .. "(ID_Usuario, User_Name, Correo) values (" .. ID .. ", " .. User .. ", " .. correo ..  ");"
 	db:execute(sql)
 	local sql2 = "insert into " .. resultado .. "(ID_Usuario, Scene) values (".. ID .. ", menu);"
 	db:execute(sql2)
-	local sql3 = "insert into .. " currentUser .. "(ID_Usuario) values ("..ID ..")"
+	local sql3 = "insert into .. " .. currentUser .. "(ID_Usuario) values ("..ID ..")"
 	db:execute(sql3)
 
 	db:close()
 end
 
 function getCurrentUser( )
-	db:sqlite3.open()
+	db = sqlite3.open(path)
 	local sql = "select * from " .. currentUser .. ";"
 	local k = 1
 	local result 
 	for x in db:nrows(sql) do
 		result = x.ID_Usuario
-	end 
+		k = k + 1
+	end  
 
 	db:close()	
 	return result
 end
 
 function getScene( )
-	db:sqlite3.open()
+	db = sqlite3.open(path)
 	local userID = getCurrentUser()
 
 	local sql = "select Scene, Level from progreso where userID = " .. userID .. ";"
 	local result 
 	for x in db:nrows(sql) do
-		result = {"Scene" = x.Scene, "Level" = x.Level}
+		result = {Scene = x.Scene, Level = x.Level}
 	end 
 	db:close()
 
