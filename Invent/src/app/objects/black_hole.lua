@@ -5,7 +5,7 @@ local _H = display.contentHeight
 
 local physics = require "physics"
 
-local path = "src/imagenes/blackhole"
+local path = "src/assets/images/blackhole"
 
 local sizeFactor = 90
 

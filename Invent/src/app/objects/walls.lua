@@ -5,7 +5,7 @@ local _H = display.contentHeight
 
 local physics = require "physics"
 
-local path = "src/imagenes/obstacles/"
+local path = "src/assets/images/obstacles/"
 
 function newWall( group,typeD,period )
 	local wall, wall2

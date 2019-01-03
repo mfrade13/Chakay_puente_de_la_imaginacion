@@ -3,11 +3,11 @@ module(..., package.seeall)
 local _W = display.contentWidth
 local _H = display.contentHeight
 
-local path = "src/imagenes/obstacles/"
+local path = "src/assets/images/obstacles/"
 
 local explode1 = graphics.newImageSheet( path .. "explosion.png", { width=128, height=128, numFrames=6 } )
 local explode2 = graphics.newImageSheet( path .."explosion_roja.png", { width=128, height=128, numFrames=6 } )
-local audio1 = audio.loadSound( "src/audios/explosion.mp3")
+local audio1 = audio.loadSound( "src/assets/sounds/explosion.mp3")
 
 function createExplosion( posx,posy,type, group )
 	local  effect 

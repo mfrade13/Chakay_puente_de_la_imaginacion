@@ -1,51 +1,44 @@
 -----------------------------------------------------------------------------------------
 --
--- level1.lua
+-- composer.lua
 --
 -----------------------------------------------------------------------------------------
+local _W = display.contentWidth
+local _H = display.contentHeight
 
 local composer = require( "composer" )
 local scene = composer.newScene()
-local widget = require "widget"
 
-local btnPath = "src/assets/images/botones/"
--- include Corona's "physics" library
-local _W, _H, halfW = display.actualContentWidth, display.actualContentHeight, display.contentCenterX
+local background 
 
---------------------------------------------
-
--- forward declarations and other locals
-local _W, _H, halfW = display.actualContentWidth, display.actualContentHeight, display.contentCenterX
-local backBtn, background
-
-local function onBackBtnRelease()
-	-- go to level1.lua scene
-	composer.gotoScene( "menu", "fade", 500 )
-	return true	-- indicates successful touch
+function load ()
+	transition.to( background,{ onComplete=gotoMenu, time=2000 } )
 end
+
+function gotoMenu(  )
+	local options =
+	{
+		effect = "zoomOutInFade", --"zoomOutInFade"
+		time = 500,
+	}
+	composer.gotoScene( "menu" ,options)
+end
+
 
 function scene:create( event )
-
 	local sceneGroup = self.view
 
-	background = display.newImageRect( "src/assets/images/backgrounds/creditos.jpg" ,_W,_H )
-	background.anchorX = 0 
-	background.anchorY = 0
+	background = display.newRect( sceneGroup, _W/2, _H/2, _W, _H )
+	local logo = display.newImage( sceneGroup, "src/assets/images/focuart.png"  )
+	logo.x=_W/2
+	logo.y=_H/2
+
+
 	
-		backBtn = widget.newButton{
-			defaultFile  ="".. btnPath .."atras.png",
-			overFile ="" .. btnPath .."atras_over.png",
-			width=56, height=56,
-			onRelease = onBackBtnRelease	-- event listener function
-		}
-		backBtn.x = _W-40
-		backBtn.y = 20
-
-	-- all display objects must be inserted into group
-	sceneGroup:insert( background )
-	sceneGroup:insert( backBtn )
+--	logo.xScale=0.5
+--	logo.yScale=0.5
+	
 end
-
 
 function scene:show( event )
 	local sceneGroup = self.view
@@ -54,13 +47,17 @@ function scene:show( event )
 	if phase == "will" then
 		-- Called when the scene is still off screen and is about to move on screen
 	elseif phase == "did" then
-		
-	end
+		-- Called when the scene is now on screen
+		-- 
+		-- INSERT code here to make the scene come alive
+		-- e.g. start timers, begin animation, play audio, etc.
+		load()
+	end	
+
 end
 
 function scene:hide( event )
 	local sceneGroup = self.view
-	
 	local phase = event.phase
 	
 	if event.phase == "will" then
@@ -68,19 +65,21 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
-
+		
+		
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
-	end	
-	
+	end		
+
 end
 
 function scene:destroy( event )
-
-
 	local sceneGroup = self.view
 	
-
+	-- Called prior to the removal of scene's "view" (sceneGroup)
+	-- 
+	-- INSERT code here to cleanup the scene
+	-- e.g. remove display objects, remove touch listeners, save state, etc.
 end
 
 ---------------------------------------------------------------------------------

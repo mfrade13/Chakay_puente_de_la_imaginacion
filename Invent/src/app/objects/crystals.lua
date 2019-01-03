@@ -5,7 +5,7 @@ local _H = display.contentHeight
 
 local physics = require "physics"
 
-local path = "src/imagenes/crystals/"
+local path = "src/assets/images/crystals/"
 
 function spwan_crystal( posx,posy,type,group )
 	local back,glow,front,num

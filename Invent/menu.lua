@@ -21,13 +21,13 @@ local btnPath = "src/assets/images/botones/"
 local playBtn, credBtn
 
 -- 'onRelease' event listener for playBtn
-local function onPlayBtnRelease()
+function onPlayBtnRelease()
 	-- go to level1.lua scene
 	composer.gotoScene( "level1", "fade", 500 )
 	return true	-- indicates successful touch
 end
 
-local function onCredBtnRelease()
+function onCredBtnRelease()
 	-- go to level1.lua scene
 	composer.gotoScene( "src.app.views.creditos", "fade", 500 )
 	return true	-- indicates successful touch
@@ -36,41 +36,43 @@ end
 function scene:create( event )
 	local sceneGroup = self.view
 
-	-- Called when the scene's view does not exist.
-	-- 
-	-- INSERT code here to initialize the scene
-	-- e.g. add display objects to 'sceneGroup', add touch listeners, etc.
-
-	-- display a background image
---	local background = display.newImageRect( "src/imagenes/backgrounds/inicio.jpg", display.actualContentWidth, display.actualContentHeight )
-	local background = display.newRect( 0, 0, _W, _H ) 
+	local background = display.newImageRect( "src/assets/images/backgrounds/bosque.jpg", display.actualContentWidth, display.actualContentHeight )
+--	local background = display.newRect( 0, 0, _W, _H ) 
 	background.anchorX = 0
 	background.anchorY = 0
 	background.x = 0 + display.screenOriginX 
 	background.y = 0 + display.screenOriginY
-	background:setFillColor( 0.75,0.75,0 )
+
+	local logo = display.newImage( sceneGroup, "src/assets/images/chakay_logo.png"  )
+	logo.x=_W/2
+	logo.y=_H/4
+
+
+--	background:setFillColor( 0.75,0.75,0 )
 	
 	-- create a widget button (which will loads level1.lua on release)
 	playBtn = widget.newButton{
-		defaultFile  ="".. btnPath .."button.png",
-		overFile ="" .. btnPath .."button-over.png",
-		width=128, height=128,
+		defaultFile  ="".. btnPath .."play.png",
+		overFile ="" .. btnPath .."play_over.png",
+		width=196, height=128,
 		onRelease = onPlayBtnRelease	-- event listener function
 	}
-	playBtn.x = _W/4*3
-	playBtn.y = _H/2 +50
+	playBtn.x = _W/2
+	playBtn.y = _H/2 + 150
+	playBtn.isVisible = true
 
 	credBtn = widget.newButton{
-		defaultFile  ="".. btnPath .."button.png",
-		overFile ="" .. btnPath .."button-over.png",
-		width=128, height=128,
+		defaultFile  ="".. btnPath .."credits.png",
+		overFile ="" .. btnPath .."credits_over.png",
+		width=196, height=128,
 		onRelease = onCredBtnRelease	-- event listener function
 	}
-	credBtn.x = _W/4*3
-	credBtn.y = _H/2 +150
+	credBtn.x = _W/2
+	credBtn.y = _H/4*3 +50
 	
 	-- all display objects must be inserted into group
 	sceneGroup:insert( background )
+	sceneGroup:insert( logo )
 	sceneGroup:insert( playBtn )
 	sceneGroup:insert( credBtn )
 end
@@ -85,7 +87,7 @@ function scene:show( event )
 		-- Called when the scene is now on screen
 
 		print( db.getCurrentUser() )
-		print( type(   db.getCurrentUser() ) )
+		print( type( db.getCurrentUser() ) )
 
 
 		-- 

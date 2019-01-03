@@ -11,4 +11,4 @@ system.activate("multitouch");
 local composer = require "composer"
 
 -- load menu screen
-composer.gotoScene( "menu" )
+composer.gotoScene( "src.app.views.spashScreen" )
